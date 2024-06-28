@@ -1,12 +1,17 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    alias(libs.plugins.daggerHilt)
+    kotlin("kapt")
 }
 
 android {
     namespace = "com.newsreader"
     compileSdk = 34
 
+    android.buildFeatures.buildConfig = true
     defaultConfig {
         applicationId = "com.newsreader"
         minSdk = 24
@@ -18,6 +23,16 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+        //load the values from local.properties file
+        val keystoreFile = project.rootProject.file("local.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        //return empty key in case something goes wrong
+        val apiKey = properties.getProperty("NEWS_API_KEY") ?: ""
+        buildConfigField("String", "API_KEY", "\"" + apiKey + "\"")
+        val baseUrl = properties.getProperty("BASE_URL") ?: ""
+        buildConfigField("String", "BASE_URL", "\"" + baseUrl + "\"")
     }
 
     buildTypes {
@@ -59,6 +74,22 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    // Navigation
+    implementation(libs.compose.navigation)
+
+    // Hilt
+    implementation(libs.hilt)
+    kapt(libs.hiltKapt)
+    // Hilt navigation / hiltViewModel
+    implementation(libs.hiltNavCompose)
+
+    // Retrofit
+    implementation(libs.rertrofit)
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.interceptor)
+    implementation(libs.gson)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

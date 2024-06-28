@@ -7,7 +7,15 @@ junitVersion = "1.1.5"
 espressoCore = "3.5.1"
 lifecycleRuntimeKtx = "2.8.2"
 activityCompose = "1.9.0"
-composeBom = "2023.08.00"
+composeBom = "2024.05.00"
+
+composeNavigation = "2.7.7"
+hilt = "2.49"
+hiltNavCompose = "1.2.0"
+retrofit = "2.9.0"
+okHttp = "4.9.3"
+okHttpInterceptor = "4.9.3"
+gson = "2.9.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -25,7 +33,17 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 
+compose-navigation = { group = "androidx.navigation", name = "navigation-compose", version.ref = "composeNavigation" }
+hilt = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
+hiltKapt = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
+hiltNavCompose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "hiltNavCompose" }
+
+rertrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okHttp" }
+okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okHttpInterceptor" }
+gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gson" }
+
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 jetbrainsKotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
-
+daggerHilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
