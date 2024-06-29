@@ -1,22 +1,37 @@
 package com.newsreader.data.repo
 
+import com.newsreader.R
+import com.newsreader.data.dto.NewsDto
 import com.newsreader.data.network.ApiService
+import com.newsreader.data.network.Result
+import com.newsreader.data.network.UIText
 import com.newsreader.domain.NewsRepo
-import com.newsreader.domain.models.News
 import javax.inject.Inject
 
-class NewsRepoImpl @Inject constructor(private val apiService: ApiService) : NewsRepo {
+class NewsRepoImpl @Inject constructor(private val apiService: ApiService) : NewsRepo,
+    ApiWrapper() {
 
-    private val list: List<News> = mutableListOf()
     override suspend fun fetchNews(
-        startIndex: Int,
-        endIndex: Int,
-        newsType: String,
-        qParams: String
-    ): List<News> {
+        startIndex: Int, endIndex: Int,
+        newsType: String, qParams: String, forceRefresh: Boolean
+    ): Result {
 
-        val response = apiService.fetchNews(newsType, qParams)
+        val result: Result = apiWrapper { apiService.fetchNews(newsType, qParams) }
+        when (result) {
+            is Result.Success<*> -> {
+                val newsDto = result.data as NewsDto
+                return if (newsDto.articles.isNullOrEmpty()) Result.Failure(
+                    msg = UIText.StringResource(
+                        R.string.no_news_found
+                    )
+                )
+                else Result.Success(newsDto)
+            }
 
-        return list
+            else -> result
+        }
+        return result
     }
+
+
 }

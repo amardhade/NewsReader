@@ -10,6 +10,7 @@ import com.newsreader.data.network.NetworkFactoryImpl
 import com.newsreader.data.network.RetrofitFactory
 import com.newsreader.data.repo.NewsRepoImpl
 import com.newsreader.domain.NewsRepo
+import com.newsreader.domain.usecases.NewsUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -60,4 +61,8 @@ class AppDI {
     @Singleton
     @Provides
     fun providesNewsRepo(apiService: ApiService): NewsRepo = NewsRepoImpl(apiService)
+
+    @Provides
+    @Singleton
+    fun providesNewsUseCase(newsRepo: NewsRepo) = NewsUseCase(newsRepo)
 }
