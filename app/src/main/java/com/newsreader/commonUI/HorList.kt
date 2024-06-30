@@ -26,7 +26,6 @@ fun HorList(
                 text = item.title, modifier = Modifier
                     .padding(horizontal = 4.dp, vertical = 8.dp)
                     .clickable {
-                        item.isSelected = !item.isSelected
                         onItemSelected(item)
                     },
                 fontSize = localDimensions.largeSp16,

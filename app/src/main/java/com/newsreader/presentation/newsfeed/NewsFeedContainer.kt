@@ -1,19 +1,17 @@
 package com.newsreader.presentation.newsfeed
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import com.newsreader.MainActivityViewModel
-import com.newsreader.domain.models.News
 
 @Composable
 fun NewsFeedContainer(
     activityViewModel: MainActivityViewModel,
-    navigateToNewsDetail: (News) -> Unit
+    navigateTo: (String) -> Unit
 ) {
     NewsFeed(
-        uiStateFlow = activityViewModel.newsUiState.collectAsState(),
+        listOfNews = activityViewModel.newsState.value,
         categories = activityViewModel.categories,
         onEvent = activityViewModel::newFeedScreenEvent,
-        navigateToNews = navigateToNewsDetail
+        navigateTo = { route -> navigateTo(route) }
     )
 }

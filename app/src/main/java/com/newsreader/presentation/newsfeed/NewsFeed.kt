@@ -1,6 +1,5 @@
 package com.newsreader.presentation.newsfeed
 
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,50 +8,54 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.newsreader.UIState
 import com.newsreader.commonUI.CatListItem
 import com.newsreader.commonUI.CategoryList
 import com.newsreader.commonUI.NewsItem
 import com.newsreader.domain.models.News
 import com.newsreader.utlitites.LocalDimensions
+import com.newsreader.utlitites.Routes
 
 @Composable
 fun NewsFeed(
-    uiStateFlow: State<UIState>,
+    listOfNews: List<News>,
     categories: List<CatListItem>,
     onEvent: (NewsFeedScreenEvent) -> Unit = {},
-    navigateToNews: (News) -> Unit
+    navigateTo: (String) -> Unit
 ) {
     val localDimension = LocalDimensions.current
 
     Column(
         modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.Start
     ) {
-        CategoryList(categories = categories, onItemSelected = { selectedItem ->
-            Log.d("News", "Selcted Cat: ${selectedItem.title}")
-            onEvent(NewsFeedScreenEvent.OnCategorySelected(selectedItem))
-        })
-
-        LazyColumn(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(localDimension.dp10)
+                .weight(9.5f),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.Start
         ) {
-            items(uiStateFlow.value.latestNews, key = { news -> news.id }) { news ->
-                NewsItem(
-                    news = news,
-                    onItemPress = { newsToNavigate ->
-                        onEvent(NewsFeedScreenEvent.SelectedNews(newsToNavigate))
-                        navigateToNews(newsToNavigate)
-                    })
+            CategoryList(categories = categories, onItemSelected = { selectedItem ->
+                onEvent(NewsFeedScreenEvent.OnCategorySelected(selectedItem))
+            })
+
+            LazyColumn(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(localDimension.dp10)
+            ) {
+                items(listOfNews, key = { news -> news.id }) { news ->
+                    NewsItem(
+                        news = news,
+                        onItemPress = { newsToNavigate ->
+                            onEvent(NewsFeedScreenEvent.SelectedNews(newsToNavigate))
+                            navigateTo(Routes.NEWS_DETAIL_SCREEN)
+                        })
+                }
             }
+
         }
     }
 }
@@ -61,21 +64,16 @@ fun NewsFeed(
 @Preview(showBackground = true)
 fun NewsFeedPreview() {
     NewsFeed(
-        uiStateFlow = mutableStateOf(
-            UIState(
-                loading = false,
-                latestNews = mutableListOf(
-                    News(
-                        id = 0,
-                        title = "News Title News Title ",
-                        urlToImage = null
-                    ),
-                    News(
-                        id = 1,
-                        title = "News Title News Title News Title News Title",
-                        urlToImage = null
-                    )
-                )
+        listOfNews = mutableListOf(
+            News(
+                id = 0,
+                title = "News Title News Title ",
+                urlToImage = null
+            ),
+            News(
+                id = 1,
+                title = "News Title News Title News Title News Title",
+                urlToImage = null
             )
         ), categories = listOf(
             CatListItem(title = "All Category", id = "", isSelected = true),

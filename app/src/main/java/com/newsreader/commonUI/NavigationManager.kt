@@ -39,8 +39,8 @@ fun NavigationManager(
         composable(Routes.NEWS_SCREEN) {
             NewsFeedContainer(
                 activityViewModel = activityViewModel,
-                navigateToNewsDetail = { selectedNews ->
-                    navHostController.navigate(Routes.NEWS_DETAIL_SCREEN)
+                navigateTo = { route ->
+                    navHostController.navigate(route)
                 })
         }
 
@@ -49,7 +49,9 @@ fun NavigationManager(
         }
 
         composable(Routes.BOOKMARKS_NEWS_SCREEN) {
-            BookmarkNewsContainer()
+            BookmarkNewsContainer(
+                activityViewModel,
+                navigateTo = { route -> navHostController.navigate(route) })
         }
     }
 

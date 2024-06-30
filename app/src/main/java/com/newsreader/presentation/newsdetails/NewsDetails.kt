@@ -75,7 +75,7 @@ fun NewsDetails(
 
             IconButton(
                 onClick = {
-                    onEvent(NewsFeedScreenEvent.UpdateBookmarked)
+                    onEvent(NewsFeedScreenEvent.UpdateBookmarked(selectedNews))
 //                    selectedNews.isBookmarked = !selectedNews.isBookmarked
                 }
             ) {
