@@ -2,4 +2,5 @@
     <string name="app_name">NewsReader</string>
     <string name="prblm_connecting_with_server">Problem connecting with server, please try again later..</string>
     <string name="no_news_found">No news found.</string>
+    <string name="description">image_desc</string>
 </resources>

@@ -10,19 +10,13 @@ import javax.inject.Inject
 class NewsUseCase @Inject constructor(private val newsRepo: NewsRepo) {
 
     private var news: List<NewsDto> = mutableListOf()
-    suspend fun getNews(
-        startIndex: Int, endIndex: Int,
-        newsType: String, qParams: String, refreshNews: Boolean
-    ): Result {
-        if (news.isNotEmpty() && !refreshNews) {
-            return Result.Success(mapRequestedItems(startIndex, endIndex))
-        }
-        val result = newsRepo.fetchNews(startIndex, endIndex, newsType, qParams, refreshNews)
+    suspend fun getNews(selectedCategory: String?): Result {
+        val result = newsRepo.fetchNews(selectedCategory)
         when (result) {
             is Result.Success<*> -> {
                 val newsDto = result.data as NewsDto
                 news = newsDto.articles ?: mutableListOf()
-                return Result.Success(mapRequestedItems(startIndex, endIndex))
+                return Result.Success(mapRequestedItems())
             }
 
             else -> result
@@ -30,18 +24,10 @@ class NewsUseCase @Inject constructor(private val newsRepo: NewsRepo) {
         return result
     }
 
-    private fun mapRequestedItems(startIndex: Int, endIndex: Int): List<News> {
+    private fun mapRequestedItems(): List<News> {
         val mappedItems: MutableList<News> = mutableListOf()
-        getRequestedItems(startIndex, endIndex).run {
-            this.forEach { newDto -> mappedItems.add(newDto.toNews()) }
-        }
+        news.forEachIndexed { index, newsDto -> mappedItems.add(newsDto.toNews(index)) }
         return mappedItems.toList()
-    }
-
-    private fun getRequestedItems(startIndex: Int, endIndex: Int): List<NewsDto> {
-        val totalNews = news.size
-        val limit = if (endIndex > totalNews) totalNews else endIndex
-        return news.drop(startIndex).take(limit)
     }
 
 }

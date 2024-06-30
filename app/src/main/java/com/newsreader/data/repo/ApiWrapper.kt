@@ -2,7 +2,7 @@ package com.newsreader.data.repo
 
 import com.newsreader.R
 import com.newsreader.data.network.Result
-import com.newsreader.data.network.UIText
+import com.newsreader.utlitites.UIText
 import retrofit2.Response
 
 abstract class ApiWrapper {

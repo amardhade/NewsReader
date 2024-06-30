@@ -4,12 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.newsreader.commonUI.BottomAppBar
+import com.newsreader.commonUI.NavigationManager
 import com.newsreader.ui.theme.NewsReaderTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,9 +27,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
-
-                    val apiKey = BuildConfig.API_KEY
+                    ActivityWrapper()
                 }
             }
         }
@@ -34,17 +35,17 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+fun ActivityWrapper() {
+    val activityViewModel = hiltViewModel() as MainActivityViewModel
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    NewsReaderTheme {
-        Greeting("Android")
-    }
+    Scaffold(
+//        topBar = { TopAppBar() },
+        bottomBar = { BottomAppBar() },
+        content = { padding ->
+            NavigationManager(
+                modifier = Modifier.padding(padding),
+                activityViewModel = activityViewModel
+            )
+        }
+    )
 }

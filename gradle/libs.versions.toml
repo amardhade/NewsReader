@@ -16,6 +16,7 @@ retrofit = "2.9.0"
 okHttp = "4.9.3"
 okHttpInterceptor = "4.9.3"
 gson = "2.9.0"
+coil = "2.6.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -42,6 +43,8 @@ rertrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref =
 okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okHttp" }
 okhttp-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okHttpInterceptor" }
 gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "gson" }
+
+coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

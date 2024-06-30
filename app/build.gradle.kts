@@ -90,6 +90,8 @@ dependencies {
     implementation(libs.okhttp.interceptor)
     implementation(libs.gson)
 
+    implementation(libs.coil) // Image loading library
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

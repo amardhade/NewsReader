@@ -1,4 +1,4 @@
-package com.newsreader.data.network
+package com.newsreader.utlitites
 
 import android.content.Context
 import androidx.annotation.StringRes
