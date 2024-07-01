@@ -1,5 +1,7 @@
 Please refer master branch
 - Update API BASE_URL & NEWS_API_KEY into local.properties to run the application
+NEWS_API_KEY=352ff9823522498189934090ba244d38
+BASE_URL=https://newsapi.org/
 
 Project details,
 - Used MVVM + Clean architecture
