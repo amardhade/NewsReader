@@ -4,10 +4,13 @@ import androidx.compose.runtime.Composable
 import com.newsreader.MainActivityViewModel
 
 @Composable
-fun BookmarkNewsContainer(activityViewModel: MainActivityViewModel, navigateTo: (String) -> Unit) {
+fun BookmarkNewsContainer(
+    activityViewModel: MainActivityViewModel,
+    navigateToNewDetails: (Int) -> Unit
+) {
     BookmarkNews(
         onEvent = activityViewModel::newFeedScreenEvent,
         bookmarkedNews = activityViewModel.getBookmarkedNews(),
-        navigateTo = { route -> navigateTo(route) }
+        navigateToNewDetails = { newsId -> navigateToNewDetails(newsId) }
     )
 }

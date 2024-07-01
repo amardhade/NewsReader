@@ -27,7 +27,8 @@ class MainActivityViewModel @Inject constructor(private val newsUseCase: NewsUse
     var newsState: MutableState<List<News>> = mutableStateOf(listOf())
 
     private var selectedCategory: CatListItem? = null
-    var selectedNews: News? = null
+
+    //    var selectedNews: News? = null
     var categories by mutableStateOf(
         listOf(
             CatListItem(title = "All Category", id = "", isSelected = true),
@@ -66,12 +67,12 @@ class MainActivityViewModel @Inject constructor(private val newsUseCase: NewsUse
             }
 
             is NewsFeedScreenEvent.SelectedNews -> {
-                selectedNews = newsFeedScreenEvent.newsToShow
+//                selectedNews = newsFeedScreenEvent.newsToShow
             }
 
             is NewsFeedScreenEvent.UpdateBookmarked -> {
                 newsState.value = newsState.value.map { news ->
-                    if (news == newsFeedScreenEvent.newsToUpdate) news.copy(isBookmarked = !selectedNews?.isBookmarked!!)
+                    if (news == newsFeedScreenEvent.newsToUpdate) news.copy(isBookmarked = !newsFeedScreenEvent.newsToUpdate.isBookmarked)
                     else news
                 }
             }
@@ -109,6 +110,11 @@ class MainActivityViewModel @Inject constructor(private val newsUseCase: NewsUse
 
     private fun updateNews(latestNews: List<News>) {
         newsState.value = latestNews
+    }
+
+    fun getSelectedNews(selectedNewsId: Int): News? {
+        val selectedNewsList = newsState.value.filter { item -> item.id == selectedNewsId }
+        return if (selectedNewsList.isNotEmpty()) selectedNewsList[0] else null
     }
 
 }

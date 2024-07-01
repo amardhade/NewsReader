@@ -16,14 +16,14 @@ import com.newsreader.commonUI.CategoryList
 import com.newsreader.commonUI.NewsItem
 import com.newsreader.domain.models.News
 import com.newsreader.utlitites.LocalDimensions
-import com.newsreader.utlitites.Routes
 
 @Composable
 fun NewsFeed(
     listOfNews: List<News>,
     categories: List<CatListItem>,
     onEvent: (NewsFeedScreenEvent) -> Unit = {},
-    navigateTo: (String) -> Unit
+    navigateTo: (String) -> Unit,
+    navigateToNewsDetail: (Int) -> Unit
 ) {
     val localDimension = LocalDimensions.current
 
@@ -51,7 +51,7 @@ fun NewsFeed(
                         news = news,
                         onItemPress = { newsToNavigate ->
                             onEvent(NewsFeedScreenEvent.SelectedNews(newsToNavigate))
-                            navigateTo(Routes.NEWS_DETAIL_SCREEN)
+                            navigateToNewsDetail(newsToNavigate.id)
                         })
                 }
             }
@@ -84,8 +84,8 @@ fun NewsFeedPreview() {
             CatListItem(title = "Science", id = "science", isSelected = false),
             CatListItem(title = "Sports", id = "sports", isSelected = false),
             CatListItem(title = "Technology", id = "technology", isSelected = false)
-        )
-    ) {
-
-    }
+        ),
+        navigateTo = {},
+        navigateToNewsDetail = {}
+    )
 }

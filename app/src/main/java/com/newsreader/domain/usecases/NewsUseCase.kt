@@ -26,7 +26,7 @@ class NewsUseCase @Inject constructor(private val newsRepo: NewsRepo) {
 
     private fun mapRequestedItems(): List<News> {
         val mappedItems: MutableList<News> = mutableListOf()
-        news.forEachIndexed { index, newsDto -> mappedItems.add(newsDto.toNews(index)) }
+        news.forEachIndexed { index, newsDto -> mappedItems.add(newsDto.toNews(index + 1)) }
         return mappedItems.toList()
     }
 

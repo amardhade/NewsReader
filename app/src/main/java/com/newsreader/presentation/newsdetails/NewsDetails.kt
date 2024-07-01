@@ -86,15 +86,16 @@ fun NewsDetails(
                 )
             }
         }
-        Text(
-            modifier = Modifier
-                .padding(localDimensions.dp4)
-                .fillMaxWidth(),
-            text = selectedNews.source ?: "",
-            fontSize = localDimensions.defaultSp14,
-            textAlign = TextAlign.End,
-            color = Color.Gray
-        )
+        if (!selectedNews.source.isNullOrBlank())
+            Text(
+                modifier = Modifier
+                    .padding(localDimensions.dp4)
+                    .fillMaxWidth(),
+                text = "Source: ${selectedNews.source}",
+                fontSize = localDimensions.defaultSp14,
+                textAlign = TextAlign.End,
+                color = Color.Gray
+            )
 
         Text(
             modifier = Modifier.padding(localDimensions.dp8),

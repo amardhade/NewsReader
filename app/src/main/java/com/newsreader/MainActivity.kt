@@ -51,7 +51,8 @@ fun ActivityWrapper() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     when (navBackStackEntry?.destination?.route) {
-        Routes.SPLASH_SCREEN, Routes.NEWS_DETAIL_SCREEN -> bottomBarState.value = false
+        Routes.SPLASH_SCREEN, Routes.NEWS_DETAIL_SCREEN + "/{newsId}" -> bottomBarState.value =
+            false
         Routes.NEWS_SCREEN, Routes.BOOKMARKS_NEWS_SCREEN -> bottomBarState.value = true
     }
 

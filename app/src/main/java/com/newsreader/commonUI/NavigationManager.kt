@@ -3,9 +3,11 @@ package com.newsreader.commonUI
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.newsreader.MainActivityViewModel
 import com.newsreader.presentation.bookmarknews.BookmarkNewsContainer
 import com.newsreader.presentation.newsdetails.NewsDetailsContainer
@@ -41,17 +43,28 @@ fun NavigationManager(
                 activityViewModel = activityViewModel,
                 navigateTo = { route ->
                     navHostController.navigate(route)
+                }, navigateToNewsDetail = { newsId ->
+                    navHostController.navigate(Routes.NEWS_DETAIL_SCREEN + "/${newsId}")
                 })
         }
 
-        composable(Routes.NEWS_DETAIL_SCREEN) {
-            NewsDetailsContainer(activityViewModel = activityViewModel)
+        composable(Routes.NEWS_DETAIL_SCREEN + "/{newsId}", arguments = listOf(
+            navArgument("newsId") {
+                defaultValue = 0
+                type = NavType.IntType
+            }
+        )) { navBackStackEntry ->
+            val newsId = navBackStackEntry.arguments?.getInt("newsId")
+            NewsDetailsContainer(
+                activityViewModel = activityViewModel,
+                selectedNewsId = newsId ?: 0
+            )
         }
 
         composable(Routes.BOOKMARKS_NEWS_SCREEN) {
             BookmarkNewsContainer(
                 activityViewModel,
-                navigateTo = { route -> navHostController.navigate(route) })
+                navigateToNewDetails = { newsId -> navHostController.navigate(Routes.NEWS_DETAIL_SCREEN + "/${newsId}") })
         }
     }
 

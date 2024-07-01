@@ -15,13 +15,12 @@ import com.newsreader.commonUI.NewsItem
 import com.newsreader.domain.models.News
 import com.newsreader.presentation.newsfeed.NewsFeedScreenEvent
 import com.newsreader.utlitites.LocalDimensions
-import com.newsreader.utlitites.Routes
 
 @Composable
 fun BookmarkNews(
     bookmarkedNews: List<News>,
     onEvent: (NewsFeedScreenEvent) -> Unit,
-    navigateTo: (String) -> Unit
+    navigateToNewDetails: (Int) -> Unit
 ) {
     val localDimension = LocalDimensions.current
     val context = LocalContext.current
@@ -43,7 +42,7 @@ fun BookmarkNews(
                     news = news,
                     onItemPress = { newsToNavigate ->
                         onEvent(NewsFeedScreenEvent.SelectedNews(newsToNavigate))
-                        navigateTo(Routes.NEWS_DETAIL_SCREEN)
+                        navigateToNewDetails(newsToNavigate.id)
                     })
             }
         }
