@@ -1,5 +1,6 @@
 package com.newsreader.commonUI
 
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
@@ -20,7 +21,8 @@ import com.newsreader.utlitites.Routes
 fun BottomTapBar(
     modifier: Modifier,
     navController: NavHostController,
-    bottomBarState: MutableState<Boolean>
+    bottomBarState: MutableState<Boolean>,
+    currentRouteState: MutableState<String>,
 ) {
     var tabIndex by remember { mutableStateOf(0) }
     var currentRoute by remember { mutableStateOf(NavigationItem.NewsFeed.route) }
@@ -28,6 +30,19 @@ fun BottomTapBar(
         NavigationItem.NewsFeed,
         NavigationItem.BookmarksNews
     )
+
+    Log.d("News", "TabIndex: ${currentRouteState.value}")
+    when (currentRouteState.value) {
+        Routes.NEWS_SCREEN -> {
+            tabIndex = 0
+            currentRoute = Routes.NEWS_SCREEN
+        }
+
+        Routes.BOOKMARKS_NEWS_SCREEN -> {
+            tabIndex = 1
+            currentRoute = Routes.BOOKMARKS_NEWS_SCREEN
+        }
+    }
 
     tabs.forEachIndexed { index, navigationItem ->
         if (navigationItem.route == currentRoute) {

@@ -6,11 +6,13 @@ import com.newsreader.MainActivityViewModel
 @Composable
 fun BookmarkNewsContainer(
     activityViewModel: MainActivityViewModel,
-    navigateToNewDetails: (Int) -> Unit
+    navigateToNewDetails: (Int) -> Unit,
+    onBack: () -> Unit
 ) {
     BookmarkNews(
         onEvent = activityViewModel::newFeedScreenEvent,
         bookmarkedNews = activityViewModel.getBookmarkedNews(),
-        navigateToNewDetails = { newsId -> navigateToNewDetails(newsId) }
+        navigateToNewDetails = { newsId -> navigateToNewDetails(newsId) },
+        onBack = onBack
     )
 }

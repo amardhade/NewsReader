@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.newsreader.commonUI.AppBackHandler
 import com.newsreader.commonUI.CatListItem
 import com.newsreader.commonUI.CategoryList
 import com.newsreader.commonUI.NewsItem
@@ -23,9 +24,14 @@ fun NewsFeed(
     categories: List<CatListItem>,
     onEvent: (NewsFeedScreenEvent) -> Unit = {},
     navigateTo: (String) -> Unit,
-    navigateToNewsDetail: (Int) -> Unit
+    navigateToNewsDetail: (Int) -> Unit,
+    onBack: () -> Unit
 ) {
     val localDimension = LocalDimensions.current
+
+    AppBackHandler {
+        onBack()
+    }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -86,6 +92,6 @@ fun NewsFeedPreview() {
             CatListItem(title = "Technology", id = "technology", isSelected = false)
         ),
         navigateTo = {},
-        navigateToNewsDetail = {}
+        navigateToNewsDetail = {}, onBack = {}
     )
 }

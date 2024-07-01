@@ -7,7 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.Icon
@@ -21,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.newsreader.commonUI.AppBackHandler
 import com.newsreader.commonUI.AppImage
 import com.newsreader.domain.models.News
 import com.newsreader.presentation.newsfeed.NewsFeedScreenEvent
@@ -29,11 +32,16 @@ import com.newsreader.utlitites.LocalDimensions
 @Composable
 fun NewsDetails(
     selectedNews: News,
-    onEvent: (NewsFeedScreenEvent) -> Unit
+    onEvent: (NewsFeedScreenEvent) -> Unit,
+    onBack: () -> Unit
 ) {
 
     val localDimensions = LocalDimensions.current
     val tintColor = if (selectedNews.isBookmarked) Color.Blue else Color.LightGray
+
+    AppBackHandler {
+        onBack()
+    }
 
     Column(
         modifier = Modifier
@@ -97,12 +105,18 @@ fun NewsDetails(
                 color = Color.Gray
             )
 
-        Text(
-            modifier = Modifier.padding(localDimensions.dp8),
-            text = selectedNews.content ?: "",
-            fontSize = localDimensions.defaultSp14,
-            color = Color.Black.copy(alpha = 0.7f)
-        )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState())
+        ) {
+            Text(
+                modifier = Modifier.padding(localDimensions.dp8),
+                text = selectedNews.content ?: "",
+                fontSize = localDimensions.defaultSp14,
+                color = Color.Black.copy(alpha = 0.7f)
+            )
+        }
 
     }
 }
@@ -120,6 +134,6 @@ fun NewsDetailsPreview() {
             description = "For a certain cohort of retirees, retirement has meant financial stability and peace of mind.",
             content = "These companies have a long track record of stellar performance.A resurgence in the popularity of stock splits has been front and center in 2024 as a number of high-profile stocks have taken the plun… [+5321 chars]"
         ),
-        onEvent = {}
+        onEvent = {}, onBack = {}
     )
 }

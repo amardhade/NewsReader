@@ -4,17 +4,15 @@ import androidx.compose.runtime.Composable
 import com.newsreader.MainActivityViewModel
 
 @Composable
-fun NewsDetailsContainer(activityViewModel: MainActivityViewModel, selectedNewsId: Int) {
-//    activityViewModel.selectedNews?.let {
-//        NewsDetails(
-//            it,
-//            onEvent = activityViewModel::newFeedScreenEvent
-//        )
-//    }
+fun NewsDetailsContainer(
+    activityViewModel: MainActivityViewModel, selectedNewsId: Int,
+    onBack: () -> Unit
+) {
     activityViewModel.getSelectedNews(selectedNewsId)?.let { selectedNews ->
         NewsDetails(
             selectedNews = selectedNews,
-            onEvent = activityViewModel::newFeedScreenEvent
+            onEvent = activityViewModel::newFeedScreenEvent,
+            onBack = onBack
         )
     }
 

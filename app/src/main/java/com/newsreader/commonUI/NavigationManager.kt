@@ -21,7 +21,8 @@ fun NavigationManager(
     modifier: Modifier = Modifier,
     activityViewModel: MainActivityViewModel,
 //    scaffoldState: ScaffoldState = rememberScaffoldState(),
-    navHostController: NavHostController = rememberNavController()
+    navHostController: NavHostController = rememberNavController(),
+    onBack: () -> Unit
 ) {
 
     NavHost(
@@ -45,7 +46,7 @@ fun NavigationManager(
                     navHostController.navigate(route)
                 }, navigateToNewsDetail = { newsId ->
                     navHostController.navigate(Routes.NEWS_DETAIL_SCREEN + "/${newsId}")
-                })
+                }, onBack = { onBack() })
         }
 
         composable(Routes.NEWS_DETAIL_SCREEN + "/{newsId}", arguments = listOf(
@@ -57,14 +58,16 @@ fun NavigationManager(
             val newsId = navBackStackEntry.arguments?.getInt("newsId")
             NewsDetailsContainer(
                 activityViewModel = activityViewModel,
-                selectedNewsId = newsId ?: 0
+                selectedNewsId = newsId ?: 0,
+                onBack = { navHostController.popBackStack() }
             )
         }
 
         composable(Routes.BOOKMARKS_NEWS_SCREEN) {
             BookmarkNewsContainer(
                 activityViewModel,
-                navigateToNewDetails = { newsId -> navHostController.navigate(Routes.NEWS_DETAIL_SCREEN + "/${newsId}") })
+                navigateToNewDetails = { newsId -> navHostController.navigate(Routes.NEWS_DETAIL_SCREEN + "/${newsId}") },
+                onBack = { navHostController.popBackStack() })
         }
     }
 

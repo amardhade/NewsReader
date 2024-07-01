@@ -1,6 +1,9 @@
 package com.newsreader
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,8 +26,11 @@ import com.newsreader.ui.theme.NewsReaderTheme
 import com.newsreader.utlitites.Routes
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+
+    var doubleBackToExitPressedOnce = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -34,41 +40,66 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    ActivityWrapper()
+                    ActivityWrapper(onBack = {
+                        doublePressToExit()
+                    })
                 }
             }
         }
     }
-}
 
-@Composable
-fun ActivityWrapper() {
-    val activityViewModel = hiltViewModel() as MainActivityViewModel
-    val navController = rememberNavController()
-    val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
+    private fun doublePressToExit() {
+        if (doubleBackToExitPressedOnce) {
+            this.finish()
+            return
+        }
 
-    // Subscribe to navBackStackEntry, required to get current route
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
+        this.doubleBackToExitPressedOnce = true
+        Toast.makeText(
+            this,
+            getString(R.string.please_click_back_again_to_exit),
+            Toast.LENGTH_SHORT
+        ).show()
 
-    when (navBackStackEntry?.destination?.route) {
-        Routes.SPLASH_SCREEN, Routes.NEWS_DETAIL_SCREEN + "/{newsId}" -> bottomBarState.value =
-            false
-        Routes.NEWS_SCREEN, Routes.BOOKMARKS_NEWS_SCREEN -> bottomBarState.value = true
+        Handler(Looper.getMainLooper()).postDelayed(Runnable {
+            doubleBackToExitPressedOnce = false
+        }, 2000)
     }
 
-    Scaffold(
-        bottomBar = {
-            BottomTapBar(
-                modifier = Modifier.fillMaxWidth(),
-                navController = navController, bottomBarState = bottomBarState
-            )
-        },
-        content = { padding ->
-            NavigationManager(
-                modifier = Modifier.padding(padding),
-                activityViewModel = activityViewModel,
-                navHostController = navController
-            )
+    @Composable
+    fun ActivityWrapper(onBack: () -> Unit) {
+        val activityViewModel = hiltViewModel() as MainActivityViewModel
+        val navController = rememberNavController()
+        val bottomBarState = rememberSaveable { (mutableStateOf(false)) }
+        val currentRouteState = rememberSaveable { (mutableStateOf(Routes.NEWS_SCREEN)) }
+
+        // Subscribe to navBackStackEntry, required to get current route
+        val navBackStackEntry by navController.currentBackStackEntryAsState()
+        val currentRoute: String = navBackStackEntry?.destination?.route ?: ""
+        currentRouteState.value = currentRoute
+        when (currentRoute) {
+            Routes.SPLASH_SCREEN, Routes.NEWS_DETAIL_SCREEN + "/{newsId}" -> bottomBarState.value =
+                false
+
+            Routes.NEWS_SCREEN, Routes.BOOKMARKS_NEWS_SCREEN -> bottomBarState.value = true
         }
-    )
+
+        Scaffold(
+            bottomBar = {
+                BottomTapBar(
+                    modifier = Modifier.fillMaxWidth(),
+                    navController = navController, bottomBarState = bottomBarState,
+                    currentRouteState = currentRouteState
+                )
+            },
+            content = { padding ->
+                NavigationManager(
+                    modifier = Modifier.padding(padding),
+                    activityViewModel = activityViewModel,
+                    navHostController = navController,
+                    onBack = onBack
+                )
+            }
+        )
+    }
 }

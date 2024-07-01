@@ -7,13 +7,15 @@ import com.newsreader.MainActivityViewModel
 fun NewsFeedContainer(
     activityViewModel: MainActivityViewModel,
     navigateTo: (String) -> Unit,
-    navigateToNewsDetail: (Int) -> Unit
+    navigateToNewsDetail: (Int) -> Unit,
+    onBack: () -> Unit
 ) {
     NewsFeed(
         listOfNews = activityViewModel.newsState.value,
         categories = activityViewModel.categories,
         onEvent = activityViewModel::newFeedScreenEvent,
         navigateTo = { route -> navigateTo(route) },
-        navigateToNewsDetail = { newsId -> navigateToNewsDetail(newsId) }
+        navigateToNewsDetail = { newsId -> navigateToNewsDetail(newsId) },
+        onBack = onBack
     )
 }

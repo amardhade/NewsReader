@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import com.newsreader.R
+import com.newsreader.commonUI.AppBackHandler
 import com.newsreader.commonUI.NewsItem
 import com.newsreader.domain.models.News
 import com.newsreader.presentation.newsfeed.NewsFeedScreenEvent
@@ -20,10 +21,16 @@ import com.newsreader.utlitites.LocalDimensions
 fun BookmarkNews(
     bookmarkedNews: List<News>,
     onEvent: (NewsFeedScreenEvent) -> Unit,
-    navigateToNewDetails: (Int) -> Unit
+    navigateToNewDetails: (Int) -> Unit,
+    onBack: () -> Unit
 ) {
     val localDimension = LocalDimensions.current
     val context = LocalContext.current
+
+    AppBackHandler {
+        onBack()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
