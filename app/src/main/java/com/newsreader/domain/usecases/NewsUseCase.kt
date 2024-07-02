@@ -9,14 +9,13 @@ import javax.inject.Inject
 
 class NewsUseCase @Inject constructor(private val newsRepo: NewsRepo) {
 
-    private var news: List<NewsDto> = mutableListOf()
     suspend fun getNews(selectedCategory: String?): Result {
         val result = newsRepo.fetchNews(selectedCategory)
         when (result) {
             is Result.Success<*> -> {
                 val newsDto = result.data as NewsDto
-                news = newsDto.articles ?: mutableListOf()
-                return Result.Success(mapRequestedItems())
+                val news = newsDto.articles ?: mutableListOf()
+                return Result.Success(mapRequestedItems(news))
             }
 
             else -> result
@@ -24,7 +23,7 @@ class NewsUseCase @Inject constructor(private val newsRepo: NewsRepo) {
         return result
     }
 
-    private fun mapRequestedItems(): List<News> {
+    fun mapRequestedItems(news: List<NewsDto>): List<News> {
         val mappedItems: MutableList<News> = mutableListOf()
         news.forEachIndexed { index, newsDto -> mappedItems.add(newsDto.toNews(index + 1)) }
         return mappedItems.toList()

@@ -93,6 +93,11 @@ dependencies {
     implementation(libs.coil) // Image loading library
 
     testImplementation(libs.junit)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockWebServer)
+
+
+
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
