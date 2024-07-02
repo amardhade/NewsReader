@@ -21,5 +21,4 @@ Functional details: Ref. news APIs https://newsapi.org/
 - Filtered news by using news category
 
 Testing strategy:
-Because of time limitation unable to complete the Unit text cases for Viewmodel & NewsUseCase
-- With this arch. we can easily write the Unit test cases for the Viewmodel & NewsUseCase.
+- Added test cases for Repository & use-cases
