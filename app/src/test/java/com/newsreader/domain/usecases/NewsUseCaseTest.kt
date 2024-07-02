@@ -1,6 +1,6 @@
 package com.newsreader.domain.usecases
 
-import com.newsreader.data.NewsRepoFake
+import com.newsreader.data.NewsRepoImplTest
 import com.newsreader.data.dto.NewsDto
 import com.newsreader.data.dto.Source
 import com.newsreader.domain.NewsRepo
@@ -23,7 +23,7 @@ class NewsUseCaseTest {
         listOfNews = (1..10).map {
             NewsDto(title = "News Tilte", source = Source(id = "", name = "ABP News"))
         }
-        newsRepo = NewsRepoFake()
+        newsRepo = NewsRepoImplTest()
         newsUseCase = NewsUseCase(newsRepo)
     }
 
