@@ -19,6 +19,7 @@ gson = "2.9.0"
 coil = "2.6.0"
 mockk = "1.10.0"
 mockWebServer = "4.9.3"
+windowSize = "1.2.1"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -50,6 +51,8 @@ coil = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 
 mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 mockWebServer = { group = "com.squareup.okhttp3", name = "mockwebserver", version.ref = "mockWebServer" }
+
+compose-window-size = { group = "androidx.compose.material3", name = "material3-window-size-class", version.ref = "windowSize" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

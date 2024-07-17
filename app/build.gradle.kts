@@ -92,6 +92,8 @@ dependencies {
 
     implementation(libs.coil) // Image loading library
 
+    implementation(libs.compose.window.size)
+
     testImplementation(libs.junit)
     testImplementation(libs.mockk)
     testImplementation(libs.mockWebServer)

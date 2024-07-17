@@ -21,4 +21,39 @@ data class Dimensions(
     val xxlargeSp20: TextUnit = 24.sp
 )
 
-val LocalDimensions = compositionLocalOf { Dimensions() }
+// // Phone width < 600dp
+val CompactDeviceDimens = Dimensions()
+
+// Medium Tablet 600dp ≤ width < 840dp
+val MediumDeviceDimens = Dimensions(
+    dp1 = 1.dp,
+    dp2 = 2.dp,
+    dp4 = 4.dp,
+    dp8 = 8.dp,
+    dp10 = 10.dp,
+    dp16 = 16.dp,
+    dp32 = 32.dp,
+    smallSp12 = 14.sp,
+    defaultSp14 = 16.sp,
+    largeSp16 = 18.sp,
+    xlargeSp18 = 22.sp,
+    xxlargeSp20 = 26.sp
+)
+
+// Large Tablet width ≥ 840dp
+val ExpandedDeviceDimens = Dimensions(
+    dp1 = 1.dp,
+    dp2 = 2.dp,
+    dp4 = 4.dp,
+    dp8 = 8.dp,
+    dp10 = 10.dp,
+    dp16 = 16.dp,
+    dp32 = 32.dp,
+    smallSp12 = 16.sp,
+    defaultSp14 = 18.sp,
+    largeSp16 = 20.sp,
+    xlargeSp18 = 24.sp,
+    xxlargeSp20 = 28.sp
+)
+
+val LocalDimensions = compositionLocalOf { CompactDeviceDimens }
